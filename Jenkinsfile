@@ -1,13 +1,14 @@
 pipeline{
     agent any
     environment {
-        root = "/usr/local/go/bin/go"
-        branch = "master"
+        root = "docker"
+        branch = "docker"
         scmUrl = "https://github.com/isti-q/sample-go-jenkins.git"
+        imageName = "sample-go-jenkins"
     }
 
     stages {
-        stage("Go Version"){
+        stage("Docker Version"){
             steps {
                 sh "${root} version" 
             }
@@ -17,14 +18,10 @@ pipeline{
                 git branch: "${branch}", url: "${scmUrl}"
             }
         }
-        stage("Go Test"){
+
+        stage("Docker Build"){
             steps {
-                sh "${root} test ./... -cover"
-            }
-        }
-        stage("Go Build"){
-            steps {
-                sh "${root} build ./..."
+                sh "${root} build -t ${imageName} ."
             }
         }
     }
