@@ -21,7 +21,7 @@ pipeline{
 
         stage("Docker Build"){
             steps {
-                sh "${root} build -t ${imageName} ."
+                sh "sudo ${root} build -t ${imageName} ."
             }
         }
     }
